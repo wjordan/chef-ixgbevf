@@ -35,19 +35,20 @@ template "/etc/modprobe.d/ixgbevf.conf" do
   mode  00644
 end
 
+# FIXME: does this vary by platform?
+dkms_dir = '/var/lib/dkms/ixgbevf'
+
 execute 'dkms_add_ixgbevf' do
   command "dkms add -m ixgbevf -v #{node['ixgbevf']['version']}"
-  # FIXME: does this vary by platform?
-  not_if { File.exists?( '/var/lib/dkms/ixgbevf' ) }
+  not_if { File.exists?(dkms_dir) }
 end
 
 execute 'dkms_build_ixgbevf' do
   command "dkms build -m ixgbevf -v #{node['ixgbevf']['version']}"
+  not_if { File.exists?("#{dkms_dir}/#{node['ixgbevf']['version']}/build") }
 end
 
-execute 'dkms_add_ixgbevf' do
+execute 'dkms_install_ixgbevf' do
   command "dkms install -m ixgbevf -v #{node['ixgbevf']['version']}"
+  not_if {`modinfo -F version ixgbevf` == node['ixgbevf']['version']}
 end
-
-
-
