@@ -50,5 +50,5 @@ end
 
 execute 'dkms_install_ixgbevf' do
   command "dkms install -m ixgbevf -v #{node['ixgbevf']['version']}"
-  not_if {`modinfo -F version ixgbevf` == node['ixgbevf']['version']}
+  not_if {`modinfo -F version ixgbevf`.strip == node['ixgbevf']['version']}
 end
