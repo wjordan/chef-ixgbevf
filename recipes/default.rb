@@ -52,3 +52,9 @@ execute 'dkms_install_ixgbevf' do
   command "dkms install -m ixgbevf -v #{node['ixgbevf']['version']}"
   not_if {`modinfo -F version ixgbevf`.strip == node['ixgbevf']['version']}
 end
+
+execute 'restart module' do
+  command "modprobe -r ixgbevf && modprobe ixgbevf"
+  action :nothing
+  subscribes :run, 'execute[dkms_install_ixgbevf]', :immediately
+end
