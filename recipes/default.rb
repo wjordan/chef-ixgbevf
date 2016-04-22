@@ -45,9 +45,12 @@ execute 'dkms_build_ixgbevf' do
   command "dkms build -m ixgbevf -v #{node['ixgbevf']['version']}"
 end
 
-execute 'dkms_add_ixgbevf' do
+execute 'dkms_install_ixgbevf' do
   command "dkms install -m ixgbevf -v #{node['ixgbevf']['version']}"
 end
 
-
-
+execute 'restart module' do
+  command "modprobe -r ixgbevf && modprobe ixgbevf"
+  action :nothing
+  subscribes :run, 'execute[dkms_install_ixgbevf]', :immediately
+end
