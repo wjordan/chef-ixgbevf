@@ -21,6 +21,15 @@ execute 'extract_ixgbevf_source' do
   not_if { File.exists?( node['ixgbevf']['dir'] ) }
 end
 
+# Ref: https://stackoverflow.com/a/44833347/2518355
+execute 'patch source' do
+  kcompat_h = "#{node['ixgbevf']['dir']}/src/kcompat.h"
+  command "sed -i 's/#if UTS_UBUNTU_RELEASE_ABI > 255/#if UTS_UBUNTU_RELEASE_ABI > 99255/' #{kcompat_h}"
+  only_if {
+    File.readlines(kcompat_h).grep(/#if UTS_UBUNTU_RELEASE_ABI > 255/).any?
+  }
+end
+
 template "#{node['ixgbevf']['dir']}/dkms.conf" do
   source "dkms.conf.erb"
   owner "root"
