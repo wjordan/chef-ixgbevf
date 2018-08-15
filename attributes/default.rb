@@ -1,8 +1,8 @@
 
-default['ixgbevf']['version'] = "3.1.2"
-default['ixgbevf']['checksum'] = "845f37a16a5acc491b5e6bdf6d3fe580724d82b7cf88ac080e3c8f9ceeea79ee"
+default['ixgbevf']['version'] = "4.3.5"
+default['ixgbevf']['checksum'] = "f2ae017462bd1ea8082710580ec3dadfc322a0b2ecd4a576a16f0a4b622e5968"
 default['ixgbevf']['package'] = "ixgbevf-#{node['ixgbevf']['version']}.tar.gz"
-default['ixgbevf']['package_url'] = "http://sourceforge.net/projects/e1000/files/ixgbevf stable/#{node['ixgbevf']['version']}/#{node['ixgbevf']['package']}"
+default['ixgbevf']['package_url'] = "http://sourceforge.net/projects/e1000/files/ixgbevf%20stable/#{node['ixgbevf']['version']}/#{node['ixgbevf']['package']}"
 default['ixgbevf']['dir']     = "/usr/src/ixgbevf-#{node['ixgbevf']['version']}"
 default['ixgbevf']['module_flags'] = "InterruptThrottleRate=1,1,1,1,1,1,1,1"
 default['ixgbevf']['disable_ifnames'] = false
